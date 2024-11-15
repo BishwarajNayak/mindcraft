@@ -1,0 +1,39 @@
+name: Install Ollama and Run Mindcraft
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow when you push to the main branch
+
+jobs:
+  ollama-setup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Set up Ollama
+      run: |
+        # Update and install dependencies
+        sudo apt update
+        sudo apt install -y curl
+
+        # Install Ollama CLI
+        curl -sSL https://ollama.com/download/linux | sudo bash
+
+        # Verify installation
+        ollama --version
+
+    - name: Install Node.js and dependencies
+      run: |
+        sudo apt install -y nodejs npm
+        npm install
+
+    - name: Run Mindcraft Bot
+      run: |
+        # Make sure Ollama is set up and ready
+        ollama run llama3
+
+        # Run your Mindcraft bot (adjust if necessary for your bot)
+        node main.js
